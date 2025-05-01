@@ -1,0 +1,47 @@
+# Node.js API
+api/node_modules
+api/package-lock.json
+api/.env
+api/debug.log
+
+# Next.js Web
+web/.next
+web/node_modules
+web/package-lock.json
+web/.env
+web/.env.local
+web/.env.development*
+web/.env.production*
+web/out
+web/build
+web/debug.log
+
+# Docker related
+docker-compose.override.yml
+.dockerenv
+.env # Si tienes un archivo .env general para Docker Compose (considera mover variables específicas a los servicios)
+
+# phpMyAdmin (puede contener caché o logs locales)
+phpmyadmin/tmp/
+phpmyadmin/config.inc.php # Si lo personalizaste localmente y no quieres versionarlo
+
+# System files and folders
+.DS_Store
+Thumbs.db
+__pycache__/
+*.py[cod]
+$RECYCLE.BIN/
+*.swp
+*.swo
+.vscode/ # Si usas VS Code y no quieres versionar la configuración local del workspace
+.idea/   # Si usas IntelliJ IDEA y no quieres versionar la configuración local del proyecto
+
+# Logs and temp files (general)
+*.log
+tmp/
+temp/
+*.tmp
+
+# Optional: Dependencies lock files from other package managers if used
+# yarn.lock
+# pnpm-lock.yaml

@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_tienda
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: tienda_db
+      MYSQL_USER: tienda_user
+      MYSQL_PASSWORD: tienda_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data_tienda:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Opcional: para inicializar la BD
+    networks:
+      - tienda_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root_password
+    networks:
+      - tienda_network
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: ./api # Directorio donde estará tu código de la API de Node.js
+      dockerfile: Dockerfile.api # Archivo Dockerfile para la API
+    container_name: tienda_api
+    ports:
+      - "8081:3000" # Puerto para la API de Node.js
+    environment:
+      DB_HOST: db # Nombre del servicio de la base de datos dentro de la red Docker
+      DB_USER: tienda_user
+      DB_PASSWORD: tienda_password
+      DB_DATABASE: tienda_db
+      DB_PORT: 3306
+    depends_on:
+      - db
+    networks:
+      - tienda_network
+    volumes:
+      - ./api:/usr/src/app # Para desarrollo, montar el código local dentro del contenedor
+      - /usr/src/app/node_modules # Evitar que se sobrescriban los módulos dentro del contenedor
+    command: ["npm", "run", "dev"] # Comando para iniciar la API (ejemplo con nodemon para desarrollo)
+
+  web:
+    build:
+      context: ./web # Directorio donde estará tu código de la aplicación web Next.js
+      dockerfile: Dockerfile.web # Archivo Dockerfile para la web
+    container_name: tienda_web
+    ports:
+      - "8080:3000" # Mapea el puerto 3000 del contenedor al 8080 de tu máquina local
+    depends_on:
+      - api
+    networks:
+      - tienda_network
+    volumes:
+      - ./web:/usr/src/app # Para desarrollo, montar el código local
+      - /usr/src/app/node_modules # Evitar sobrescribir módulos
+    command: ["npm", "run", "dev"]
+    
+volumes:
+  mysql_data_tienda:
+
+networks:
+  tienda_network:
+    driver: bridge
