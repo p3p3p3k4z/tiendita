@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { IoBrowsersOutline, IoCalculator, IoLogoReact } from 'react-icons/io5';
+import { IoBrowsersOutline, IoCalculator, IoLogoReact, IoListSharp } from 'react-icons/io5';
 import { MdCatchingPokemon } from "react-icons/md";
 import { SidebarMenuItem } from './SidebarMenuItem';
-
+import logoImg from '../../../public/logo/logo.png';
 
 const menuItems = [
   {
@@ -12,6 +12,12 @@ const menuItems = [
     subTitle: 'Productos'
   },
   {
+    path: '/dashboard/products', 
+    icon: <IoListSharp size={40} />, 
+    title: 'Peluches',
+    subTitle: 'Lista de productos'
+  },
+/*  {
     path: '/dashboard/counter',
     icon: <IoCalculator size={40} />,
     title: 'Contador',
@@ -46,7 +52,7 @@ const menuItems = [
     icon: <MdCatchingPokemon size={40} />,
     title: 'PokemonCard',
     subTitle: 'Pokemonescard'
-  }
+  }*/
 ]
 
 
@@ -55,16 +61,18 @@ export const Sidebar = () => {
 
     <div id="menu" 
       style={{ width: '400px' }}
-      className="bg-gray-900 min-h-screen z-10 text-slate-300 w-64 left-0  overflow-y-scroll">
+      className="bg-lime-950 min-h-screen z-10 text-slate-300 w-64 left-0  overflow-y-scroll">
 
-
-      <div id="logo" className="my-4 px-6">
-        <h1 className="flex items-center  text-lg md:text-2xl font-bold text-white">
-          <IoLogoReact className='mr-2' />
-          <span> Dash</span> 
-          <span className="text-blue-500">8</span>.
-        </h1>
-        <p className="text-slate-500 text-sm">Manage your actions and activities</p>
+      <div id="logo" className="px-6">
+        <span>
+          <Image
+            src={logoImg}
+            alt="Tu Logo"
+            width={250}
+            height={150}
+            className="object-contain"
+          />
+        </span>
       </div>
 
 
@@ -80,7 +88,7 @@ export const Sidebar = () => {
             />
           </span>
           <span className="text-sm md:text-base font-bold">
-            Tiendita de Juguetes
+            Pepe Pecas
           </span>
         </a>
       </div>
@@ -93,22 +101,6 @@ export const Sidebar = () => {
               <SidebarMenuItem  key={ item.path } {...item} />
           ))
         }
-
-{/* 
-        <a href="#" className="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-lg text-slate-300 font-bold leading-5">Counter</span>
-            <span className="text-sm text-slate-500 hidden md:block">Estado local</span>
-          </div>
-        </a> */}
-
-
-
       </div>
     </div>
   )
