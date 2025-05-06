@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { IoBrowsersOutline, IoCalculator, IoLogoReact, IoListSharp } from 'react-icons/io5';
-import { MdCatchingPokemon } from "react-icons/md";
+import { IoBrowsersOutline, IoCalculator, IoLogoReact, IoListSharp,IoCartSharp } from 'react-icons/io5';
 import { SidebarMenuItem } from './SidebarMenuItem';
 import logoImg from '../../../public/logo/logo.png';
 
@@ -17,42 +16,12 @@ const menuItems = [
     title: 'Peluches',
     subTitle: 'Lista de productos'
   },
-/*  {
-    path: '/dashboard/counter',
-    icon: <IoCalculator size={40} />,
-    title: 'Contador',
-    subTitle: 'Client Side'
-  },
   {
-    path: '/dashboard/pokemons',
-    icon: <IoCalculator size={40} />,
-    title: 'Jugetes',
-    subTitle: 'Client Side'
+    path: '/dashboard/cart', // Ruta a tu página del carrito
+    icon: <IoCartSharp size={40} />, // Icono del carrito
+    title: 'Carrito',
+    subTitle: 'Tu lista de compras'
   },
-  {
-    path: '/dashboard/toy',
-    icon: <IoCalculator size={40} />,
-    title: 'Toys',
-    subTitle: 'Pokemones'
-  },
-  {
-    path: '/dashboard/pokemonv1',
-    icon: <IoCalculator size={40} />,
-    title: 'Pokemonv1',
-    subTitle: 'Pokemones'
-  },
-  {
-    path: '/dashboard/pokemonlist',
-    icon: <MdCatchingPokemon size={40} />,
-    title: 'Pokemonlista',
-    subTitle: 'Pokemonesjson'
-  },
-  {
-    path: '/dashboard/pokemoncard',
-    icon: <MdCatchingPokemon size={40} />,
-    title: 'PokemonCard',
-    subTitle: 'Pokemonescard'
-  }*/
 ]
 
 

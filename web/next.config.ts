@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'e1.pngegg.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'media4.giphy.com' 
       }
     ]
   },

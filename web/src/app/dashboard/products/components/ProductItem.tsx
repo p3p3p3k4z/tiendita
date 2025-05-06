@@ -35,7 +35,7 @@ const ProductItem = ({ peluche, onAddToCart }: Props) => {
         <h3 className="text-lg font-semibold text-gray-800">{peluche.nombre}</h3>
         <p className="text-gray-600 text-sm">{peluche.descripcion?.substring(0, 60)}...</p>
         <div className="mt-2 flex justify-between items-center">
-          <span className="text-blue-500 font-bold">${peluche.precio.toFixed(2)}</span>
+          <span className="text-yellow-500 font-bold">${peluche.precio.toFixed(2)}</span>
           <span className="text-gray-500 text-sm">Stock: {peluche.npiezas}</span>
         </div>
         <div className="mt-2 flex items-center space-x-2">
@@ -46,7 +46,7 @@ const ProductItem = ({ peluche, onAddToCart }: Props) => {
             onQuantityChange={handleQuantityChange}
           />
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md text-sm"
+            className="bg-yellow-500 hover:bg-lime-500 text-white font-bold py-2 px-4 rounded-md text-sm"
             onClick={handleAddToCartClick}
           >
             Agregar al carrito
