@@ -9,8 +9,7 @@ services:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: tienda_db
-      MYSQL_USER: tienda_user
-      MYSQL_PASSWORD: tienda_password
+      # No es necesario definir MYSQL_USER y MYSQL_PASSWORD para root
       MYSQL_CHARACTER_SET_SERVER: utf8mb4
       MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
     ports:
@@ -20,6 +19,12 @@ services:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Opcional: para inicializar la BD
     networks:
       - tienda_network
+    healthcheck: # Agregamos un healthcheck para MySQL
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -41,21 +46,23 @@ services:
       dockerfile: Dockerfile.api # Archivo Dockerfile para la API
     container_name: tienda_api
     ports:
-      - "8081:3000" # Puerto para la API de Node.js
+      - "8081:4000" # Puerto para la API de Node.js
     environment:
       DB_HOST: db # Nombre del servicio de la base de datos dentro de la red Docker
-      DB_USER: tienda_user
-      DB_PASSWORD: tienda_password
+      DB_USER: root # Usamos root
+      DB_PASSWORD: root_password # Usamos la contraseña de root
       DB_DATABASE: tienda_db
       DB_PORT: 3306
     depends_on:
-      - db
+      db:
+        condition: service_healthy # Esperamos a que MySQL esté saludable
     networks:
       - tienda_network
     volumes:
       - ./api:/usr/src/app # Para desarrollo, montar el código local dentro del contenedor
       - /usr/src/app/node_modules # Evitar que se sobrescriban los módulos dentro del contenedor
     command: ["npm", "run", "dev"] # Comando para iniciar la API (ejemplo con nodemon para desarrollo)
+    restart: always # Aseguramos que la API se reinicie si falla
 
   web:
     build:

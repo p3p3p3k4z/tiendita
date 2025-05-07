@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { Product } from '@/app/types/product';
 import { initialProducts } from '@/app/data/products';
-import { CartCounter } from './components/CartCounter'; // Importa CartCounter
+import { CartCounter } from './components/CartCounter'; 
 
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
@@ -14,7 +14,7 @@ const CartPage = () => {
   const cartItemsWithProduct = cartItems.map(cartItem => {
     const product = initialProducts.find(p => p.id === cartItem.productId);
     return product ? { ...cartItem, product } : null;
-  }).filter((item): item is { product: Product; quantity: number } => item !== null);
+  }).filter((item): item is { product: Product; productId: number; quantity: number } => item !== null); // Añadimos productId al tipo
 
   const calculateTotalPrice = () => {
     return cartItemsWithProduct.reduce((total, item) => total + item.product.precio * item.quantity, 0);
@@ -50,7 +50,7 @@ const CartPage = () => {
                 <CartCounter
                   value={item.quantity}
                   stock={item.product.npiezas}
-                  onQuantityChange={(newQuantity) => handleQuantityChange(item.product.id, newQuantity)}
+                  onQuantityChange={(newQuantity: number) => handleQuantityChange(item.product.id, newQuantity)}
                 />
               </div>
             </div>

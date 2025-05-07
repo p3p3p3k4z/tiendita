@@ -1,9 +1,6 @@
 -- Crear la base de datos si no existe
 CREATE DATABASE IF NOT EXISTS tienda_db;
 
--- Asegurar que la base de datos use la codificación de caracteres utf8mb4 para soportar emojis y caracteres especiales
-ALTER DATABASE tienda_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 -- Usar la base de datos tienda_db
 USE tienda_db;
 
@@ -15,8 +12,8 @@ CREATE TABLE IF NOT EXISTS productos (
     descripcion TEXT,
     precio DECIMAL(10, 2) NOT NULL,
     npiezas INT UNSIGNED NOT NULL,
-    categoria VARCHAR(50) NOT NULL -- Nuevo campo para la categoría del producto
-); ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    categoria VARCHAR(50) NOT NULL 
+); 
 
 -- Insertar datos de ejemplo de peluches con la categoría asignada
 INSERT INTO productos (imagen, nombre, descripcion, precio, npiezas, categoria) VALUES
