@@ -1,5 +1,33 @@
-// src/app/data/products.ts
 import { Product } from '@/app/types/product';
+
+/**
+ * Obtiene la lista de productos desde la API.
+ * @returns Una promesa que resuelve a un array de productos, o null en caso de error.
+ */
+export const initialProducts = async (): Promise<Product[] | null> => {
+    try {
+        const response = await fetch('http://localhost:8081/api/productos');
+        if (!response.ok) {
+            throw new Error(`Error al obtener los productos de la API: ${response.status}`);
+        }
+        const data = await response.json();
+        const transformedProducts: Product[] = data.map((item: any) => ({
+            id: item.id,
+            imagen: item.imagen,
+            nombre: item.nombre,
+            descripcion: item.descripcion,
+            precio: item.precio,
+            npiezas: item.npiezas,
+        }));
+        return transformedProducts;
+    } catch (error) {
+        console.error("Error al obtener los productos:", error);
+        return null;
+    }
+};
+
+
+/*port { Product } from '@/app/types/product';
 
 export const initialProducts: Product[] = [
   { id: 1, imagen: 'aguacate.webp', nombre: 'Peluche de Aguacate Sonriente', descripcion: 'Un adorable peluche con forma de aguacate feliz.', precio: 12.99, npiezas: 75 },
@@ -25,4 +53,4 @@ export const initialProducts: Product[] = [
   { id: 21, imagen: 'sleepkitty.webp', nombre: 'Peluche de Gatito Durmiendo', descripcion: 'Otro adorable gatito de peluche profundamente dormido.', precio: 11.50, npiezas: 78 },
   { id: 22, imagen: 'tux-peluche1.webp', nombre: 'Peluche de Tux el Pingüino', descripcion: 'El pingüino mascota de Linux en forma de peluche.', precio: 16.50, npiezas: 42 },
   { id: 23, imagen: 'domo.webp', nombre: 'Peluche de Domo-kun', descripcion: 'El peculiar personaje Domo-kun en forma de peluche.', precio: 17.25, npiezas: 55 },
-];
+];*/
