@@ -1,20 +1,18 @@
-// src/app/dashboard/cart/page.tsx
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { Product } from '@/app/types/product';
 import { initialProducts } from '@/app/data/products';
-import { CartCounter } from './components/CartCounter'; 
+import { CartCounter } from './components/CartCounter';
 
 const CartPage = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
 
-  // Filtramos los items del carrito y les adjuntamos la información del producto
   const cartItemsWithProduct = cartItems.map(cartItem => {
     const product = initialProducts.find(p => p.id === cartItem.productId);
     return product ? { ...cartItem, product } : null;
-  }).filter((item): item is { product: Product; productId: number; quantity: number } => item !== null); // Añadimos productId al tipo
+  }).filter((item): item is { product: Product; productId: number; quantity: number } => item !== null);
 
   const calculateTotalPrice = () => {
     return cartItemsWithProduct.reduce((total, item) => total + item.product.precio * item.quantity, 0);
@@ -26,6 +24,11 @@ const CartPage = () => {
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     updateQuantity(productId, newQuantity);
+  };
+
+  const handleFinalizarCompra = () => {
+    clearCart();
+    alert('Compra finalizada! El carrito se ha vaciado.');
   };
 
   return (
@@ -72,7 +75,12 @@ const CartPage = () => {
       </div>
       <div className="mt-4 flex justify-end space-x-2">
         <Link href="/dashboard/products" className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md">Seguir Comprando</Link>
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md">Finalizar Compra</button>
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md"
+          onClick={handleFinalizarCompra}
+        >
+          Finalizar Compra
+        </button>
       </div>
     </div>
   );
