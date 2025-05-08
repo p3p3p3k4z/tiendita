@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/app/context/CartContext';
 import { Product } from '@/app/types/product';
-import { initialProducts } from '@/app/data/products'; // Importa la función para obtener los productos
+import { initialProducts } from '@/app/data/products';
 
 const ProductsPage = () => {
     const { addToCart } = useCart();
@@ -34,7 +34,7 @@ const ProductsPage = () => {
 
     const handleAddToCart = (product: Product, quantity: number) => {
         if (quantity > 0 && quantity <= product.npiezas) {
-            addToCart(product, quantity); // Pasa el objeto product completo
+            addToCart(product, quantity);
             alert(`${quantity} "${product.nombre}" agregado(s) al carrito.`);
         } else if (quantity > product.npiezas) {
             alert(`No hay suficiente stock de "${product.nombre}". Disponibles: ${product.npiezas}`);
@@ -52,7 +52,8 @@ const ProductsPage = () => {
     }
 
     if (error) {
-        return (            <div className="p-6 text-red-500">
+        return (
+            <div className="p-6 text-red-500">
                 Error: {error}
             </div>
         );
@@ -62,13 +63,12 @@ const ProductsPage = () => {
         <div className="p-6">
             <h1 className="text-2xl font-semibold text-gray-900 mb-4">Nuestros Peluches</h1>
             {products.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"> {/* 3 columnas en pantallas grandes */}
                     {products.map((product: Product) => {
-                        // Construye la ruta de la imagen correctamente
                         const imagePath = `/images/${product.imagen}`;
 
                         return (
-                            <div key={product.id} className="bg-white rounded-md shadow-md p-4">
+                            <div key={product.id} className="bg-white rounded-md shadow-md p-4 flex flex-col min-h-[400px] max-w-[100%]"> 
                                 <div className="w-full h-48 relative overflow-hidden rounded-md mb-4">
                                     <Image
                                         src={imagePath}
@@ -78,10 +78,12 @@ const ProductsPage = () => {
                                         onError={() => console.error(`Error loading image: ${imagePath}`)}
                                     />
                                 </div>
-                                <h2 className="text-lg font-semibold text-gray-800">{product.nombre}</h2>
-                                <p className="text-gray-600 text-sm">{product.descripcion}</p>
-                                <p className="text-blue-500 font-bold mt-2">${product.precio}</p>
-                                <p className="text-gray-700 text-sm">Disponibles: {product.npiezas}</p>
+                                <div className="flex-grow">
+                                    <h2 className="text-lg font-semibold text-gray-800">{product.nombre}</h2>
+                                    <p className="text-gray-600 text-sm">{product.descripcion}</p>
+                                    <p className="text-yellow-500 font-bold mt-2">${product.precio}</p>
+                                    <p className="text-gray-700 text-sm">Disponibles: {product.npiezas}</p>
+                                </div>
                                 <div className="mt-4 flex items-center space-x-2">
                                     <label htmlFor={`quantity-${product.id}`} className="text-sm text-gray-700">
                                         Cantidad:
@@ -95,19 +97,16 @@ const ProductsPage = () => {
                                         className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
                                     <button
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md"
+                                        className="bg-green-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md"
                                         onClick={() => {
                                             const quantityInput = document.getElementById(`quantity-${product.id}`) as HTMLInputElement;
                                             const quantity = parseInt(quantityInput.value, 10);
-                                            handleAddToCart(product, quantity); // Pasa el objeto product
+                                            handleAddToCart(product, quantity);
                                         }}
                                     >
                                         Agregar al carrito
                                     </button>
                                 </div>
-                                <Link href={`/dashboard/products/${product.id}`} className="text-green-500 hover:underline mt-2 block">
-                                    Ver detalle
-                                </Link>
                             </div>
                         );
                     })}
